@@ -1,11 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Page Title</title>
-  <meta charset="UTF-8"/>
+  <title>Extreme Rock Paper Scissors</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div id="container">
+        <div id="buttons">
+            <button id="rock">Pick Rock</button>
+            <br>
+            <button id="paper">Pick Paper</button>
+            <br>
+            <button id="scissors">Pick Scissors</button>    
+        </div>
+        <div id="scores">
+            <span id="numRounds">Rounds: 0</span>
+            <span id="numWins">Wins: 0</span>
+            <span id="numLosses">Losses: 0</span>
+        </div>
+        <div id="results">
+            <div id="roundResults"> Round result: No play yet</div>
+            <div id="matchResults"> Match result: waiting on 5 wins/losses to be played... </div>            
+        </div>
+    </div>
+
   <script>
+      // set scores to 0
+      let wins = 0;
+      let losses = 0;
+      let rounds = 0;
+    
+    // define constants to update on round/game completion
+    const roundResults = document.querySelector('#roundResults');
+    const matchResults = document.querySelector('#matchResults');
+    const numRounds = document.querySelector('#numRounds');
+    const numWins = document.querySelector('#numWins');
+    const numLosses = document.querySelector('#numLosses');
+
     function computerPlay(){
         switch(Math.floor(Math.random()*3)) {
             case 0:
@@ -44,31 +77,50 @@
         }
     }
 
-    function game() {
-        let wins = 0;
-        let losses = 0;
-        for (let index = 0; index < 5; index++) {
-            let choice = window.prompt("Pick Rock, Paper, or Scissors");
-            let result = playRound(choice, computerPlay());
-            console.log(result);
-            if (result.includes("Win")) {
-                wins++;
-            }
-            else if (result.includes("Lose")) {
-                losses++;
-            }
+    function game(choice) {
+
+        if (rounds == 0) {
+            matchResults.textContent = "Match result: waiting on 5 wins/losses to be played... ";
         }
-        if (wins > losses) {
-            console.log("congrats, you win!");
+
+        rounds++;
+        numRounds.textContent = "Rounds: " + rounds;
+
+        let result = playRound(choice, computerPlay());
+        roundResults.textContent = "Round result: " + result;
+        if (result.includes("Win")) {
+            wins++;
         }
-        else if (wins < losses) {
-            console.log("sorry, you lost :(");
+        else if (result.includes("Lose")) {
+            losses++;
         }
-        else {
-            console.log("looks like a tie. Good game!");
+
+        numWins.textContent = "Wins: " + wins;
+        numLosses.textContent = "Losses: " + losses;        
+
+        if (wins == 5) {
+            matchResults.textContent = "Match results: Congrats, you win!";
+            wins = 0;
+            losses = 0;
+            rounds = 0;
         }
+        else if (losses == 5) {
+            matchResults.textContent = "Match results: sorry, you lost :(";
+            wins = 0;
+            losses = 0;
+            rounds = 0;
+        }
+
     }
-    console.log("Hello, World!")
+
+    const buttons = document.querySelectorAll('button');
+
+    buttons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            game(button.id.toString());
+        });
+    });
+
   </script>
 </body>
 </html>

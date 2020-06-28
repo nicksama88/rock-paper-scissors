@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page Title</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+  <script>
+    function computerPlay(){
+        switch(Math.floor(Math.random()*3)) {
+            case 0:
+            return "rock";
+            case 1:
+            return "paper";
+            case 2:
+            return "scissors";
+            default:
+            return null;
+        }
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        switch(playerSelection.toLowerCase() + computerSelection) {
+            case 'rockrock':
+            return 'Tie! Rock ties Rock';
+            case 'rockpaper': 
+            return 'You Lose! Paper beats Rock';
+            case 'rockscissors': 
+            return 'You Win! Rock beats Paper';
+            case 'paperrock': 
+            return 'You Win! Paper beats Rock';
+            case 'paperpaper': 
+            return 'Tie! Paper ties Paper';
+            case 'paperscissors': 
+            return 'You Lose! Scissors beats Paper';
+            case 'scissorsrock': 
+            return 'You Lose! Rock beats Scissors';
+            case 'scissorspaper': 
+            return 'You Win! Scissors beats Paper';
+            case 'scissorsscissors': 
+            return 'Tie! Scissors ties Scissors';
+            default: 
+            return null;
+        }
+    }
+
+    function game() {
+        let wins = 0;
+        let losses = 0;
+        for (let index = 0; index < 5; index++) {
+            let choice = window.prompt("Pick Rock, Paper, or Scissors");
+            let result = playRound(choice, computerPlay());
+            console.log(result);
+            if (result.includes("Win")) {
+                wins++;
+            }
+            else if (result.includes("Lose")) {
+                losses++;
+            }
+        }
+        if (wins > losses) {
+            console.log("congrats, you win!");
+        }
+        else if (wins < losses) {
+            console.log("sorry, you lost :(");
+        }
+        else {
+            console.log("looks like a tie. Good game!");
+        }
+    }
+    console.log("Hello, World!")
+  </script>
+</body>
+</html>
